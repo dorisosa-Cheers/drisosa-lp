@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>乾杯大学ドリソサ【飲みサー】</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Noto+Sans+JP:wght@400;700;900&family=Rampart+One&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --red: #e8192c;
+      --yellow: #ffd600;
+      --orange: #ff6b00;
+      --white: #fffdf5;
+      --black: #0f0f0f;
+      --tl-spring: #ff6eb4;
+      --tl-summer: #e8192c;
+      --tl-autumn: #ff6b00;
+      --tl-winter: #fffdf5;
+      --tl-all:    #ffd600;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: var(--white);
+      color: var(--black);
+      overflow-x: hidden;
+    }
+
+    /* ── MARQUEE ── */
+    .marquee-bar {
+      background: var(--red);
+      color: var(--yellow);
+      font-family: 'Dela Gothic One', sans-serif;
+      font-size: 0.9rem;
+      letter-spacing: 0.1em;
+      padding: 10px 0;
+      overflow: hidden;
+      white-space: nowrap;
+      z-index: 200;
+    }
+    .marquee-track {
+      display: inline-flex;
+      gap: 60px;
+      animation: marqueeScroll 18s linear infinite;
+    }
+    .marquee-track span::before { content: '🍺 '; }
+    @keyframes marqueeScroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--black);
+      display: flex; align-items: center;
+      padding: 14px 48px;
+      border-bottom: 3px solid var(--yellow);
+    }
+    .nav-logo {
+      font-family: 'Dela Gothic One', sans-serif;
+      font-size: 1.1rem; color: var(--yellow); letter-spacing: 0.05em;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--black);
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 80px 24px 60px;
+      position: relative; overflow: hidden;
+    }
+    .confetti { position: absolute; inset: 0; pointer-events: none; }
+    .confetti-dot {
+      position: absolute;
+      border-radius: 50%;
+      animation: confettiFall linear infinite;
+    }
+    @keyframes confettiFall {
+      0%   { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(
+        -45deg, transparent, transparent 40px,
+        rgba(255,214,0,0.03) 40px, rgba(255,214,0,0.03) 80px
+      );
+    }
+    .hero-badge {
+      display: inline-block;
+      background: var(--yellow); color: var(--black);
+      font-family: 'Dela Gothic One', sans-serif;
+      font-size: 0.78rem; letter-spacing: 0.2em;
+      padding: 8px 24px; margin-bottom: 28px;
+      transform: rotate(-1deg);
+      position: relative; z-index: 1;
+      animation: badgeWobble 3s ease-in-out infinite;
+    }
+    @keyframes badgeWobble {
+      0%, 100% { transform: rotate(-1deg); }
+      50%       { transform: rotate(1deg); }
+    }
+    .hero-title { position: relative; z-index: 1; margin-bottom: 20px; }
+    .hero-title .line1 {
+      display: block;
+      font-family: 'Dela Gothic One', sans-serif;
+      font-size: clamp(2.8rem, 8vw, 7rem);
+      color: var(--white); line-height: 1.05;
+      text-shadow: 4px 4px 0 var(--red), 8px 8px 0 rgba(232,25,44,0.3);
+    }
+    .hero-title .line2 {
+      display: block;
+      font-family: 'Rampart One', sans-serif;
+      font-size: clamp(1.2rem, 3.5vw, 2.5rem);
+      color: var(--yellow); letter-spacing: 0.15em; margin-top: 8px;
+    }
+    .hero-catchphrase {
+      position: relative; z-index: 1;
+      font-family: 'Dela Gothic One', sans-serif;
+      font-size: clamp(1rem, 3vw, 1.8rem);
+      color: var(--yellow); background: var(--red);
+      display: inline-block; padding: 12px 36px;
+      margin: 24px 0; transform: rotate(-0.5deg); letter-spacing: 0.05em;
+    }
+    .hero-sub {
+      position: relative; z-index: 1;
+      font-size: 1rem; line-height: 2.2;
+      color: rgba(255,253,245,0.7);
+      max-width: 520px; margin: 0 auto 40px; letter-spacing: 0.08em;
+    }
+    .hero-cta {
+      position: relative; z-index: 1;
+      display: inline-block;
+      font-family: 'Dela Gothic One', sans-serif;
+      font-size: 1.1rem; letter-spacing: 0.08em;
+      color: var(--black); background: var(--yellow);
+      text-decoration: none; padding: 20px 64px;
+      border: 4px solid var(--yellow);
+      transition: all 0.2s;
+      box-shadow: 6px 6px 0 var(--orange); cursor: pointer;
+    }
+    .hero-cta:hover { transform: translate(-3px,-3px); box-shadow: 9px 9px 0 var(--orange); }
+    .hero-cta:active { transform: translate(3px,3px); box-shadow: 3px 3px 0 var(--orange); }
+
+    /* ── REVEAL ── */
+    .reveal {
+      opacity: 0; transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── SECTION COMMON ── */
+    .section-tag {
+      font-family: 'Dela Gothic One', sans-serif;
+      font-size: 0.78rem; letter-spacing: 0.4em; margin-bottom: 20px;
+    }
+    .section-title {
+      font-family: 'Dela Gothic One', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      line-height: 1.2; margin-bottom: 48px;
+    }
+
+    /* ── MANIFESTO ── */
+    .manifesto {
+      background: var(--yellow);
+      padding: 80px 48px; position: relative; overflow: hidden;
+    }
+    .manifesto::before {
+      content: '🍻'; position: absolute;
+      font-size: 20rem; opacity: 0.06; right: -60px; top: -40px; line-height: 1;
+    }
+    .manifesto-inner { max-width: 1000px; margin: 0 auto; }
+    .manifesto .section-tag { color: var(--red); }
+    .manifesto .section-title { color: var(--black); }
+    .manifesto-items { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+
+    .manifesto-item {
+      background: var(--white); border: 3px solid var(--black);
+      padding: 28px 32px; box-shadow: 6px 6px 0 var(--black); position: relative;
+    }
+    .manifesto-item .item-num {
+      font-family: 'Dela Gothic One', sans-serif;
+      font-size: 2.5rem; color: var(--red); opacity: 0.15;
+      position: absolute; top: 12px; right: 20px; line-height: 1;
+    }
+    .manifesto-item .emoji { font-size: 1.8rem; margin-bottom: 12px; display: block; }
+    .manifesto-item .item-text {
+      font-family: 'Dela Gothic One', sans-serif;
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      color: var(--black); letter-spacing: 0.03em; line-height: 1.5;
+    }
+
+    /* ── EVENTS タイムライン ── */
+    .events { background: var(--black); padding: 80px 48px; }
+    .events-inner { max-width: 1000px; margin: 0 auto; }
+    .events .section-tag { color: var(--yellow); }
+    .events .section-title { color: var(--white); }
+    .events .section-title span { color: var(--yellow); }
+
+    .timeline { position: relative; padding-left: 40px; margin-top: 8px; }
+    .tl-line {
+      position: absolute; left: 12px; top: 0; bottom: 0;
+      width: 2px; pointer-events: none;
+    }
+    .tl-item { position: relative; margin-bottom: 48px; }
+    .tl-item:last-child { margin-bottom: 0; }
+    .tl-dot {
+      position: absolute; left: -34px; top: 8px;
+      width: 12px; height: 12px; border-radius: 50%;
+      border: 2px solid var(--black);
+    }
+    .tl-season {
+      font-size: 0.68rem; letter-spacing: 0.4em; margin-bottom: 4px;
+      font-family: 'Dela Gothic One', sans-serif;
+    }
+    .tl-title { font-family: 'Dela Gothic One', sans-serif; font-size: 1.2rem; margin-bottom: 8px; }
+    .tl-desc {
+      font-size: 0.88rem; color: rgba(255,253,245,0.65);
+      line-height: 1.9; letter-spacing: 0.05em;
+      border-left: 2px solid; padding-left: 14px;
+    }
+    .tl-spring .tl-dot    { background: var(--tl-spring); box-shadow: 0 0 0 2px var(--tl-spring); }
+    .tl-spring .tl-season { color: var(--tl-spring); }
+    .tl-spring .tl-title  { color: var(--tl-spring); }
+    .tl-spring .tl-desc   { border-color: rgba(255,110,180,0.3); }
+    .tl-summer .tl-dot    { background: var(--tl-summer); box-shadow: 0 0 0 2px var(--tl-summer); }
+    .tl-summer .tl-season { color: var(--tl-summer); }
+    .tl-summer .tl-title  { color: var(--tl-summer); }
+    .tl-summer .tl-desc   { border-color: rgba(232,25,44,0.3); }
+    .tl-autumn .tl-dot    { background: var(--tl-autumn); box-shadow: 0 0 0 2px var(--tl-autumn); }
+    .tl-autumn .tl-season { color: var(--tl-autumn); }
+    .tl-autumn .tl-title  { color: var(--tl-autumn); }
+    .tl-autumn .tl-desc   { border-color: rgba(255,107,0,0.3); }
+    .tl-winter .tl-dot    { background: var(--tl-winter); box-shadow: 0 0 0 2px var(--tl-winter); }
+    .tl-winter .tl-season { color: var(--tl-winter); }
+    .tl-winter .tl-title  { color: var(--tl-winter); }
+    .tl-winter .tl-desc   { border-color: rgba(255,253,245,0.2); }
+    .tl-all .tl-dot    { background: var(--tl-all); box-shadow: 0 0 0 2px var(--tl-all); }
+    .tl-all .tl-season { color: var(--tl-all); }
+    .tl-all .tl-title  { color: var(--tl-all); }
+    .tl-all .tl-desc   { border-color: rgba(255,214,0,0.3); }
+
+    /* ── RULES ふきだし（タップ/クリックのみ） ── */
+    .rules { background: var(--red); padding: 80px 48px; position: relative; overflow: hidden; }
+    .rules::after {
+      content: '！'; position: absolute;
+      font-family: 'Dela Gothic One', sans-serif;
+      font-size: 40rem; color: rgba(0,0,0,0.05);
+      right: -60px; bottom: -100px; line-height: 1;
+    }
+    .rules-inner { max-width: 1000px; margin: 0 auto; position: relative; z-index: 1; }
+    .rules .section-tag { color: var(--yellow); }
+    .rules .section-title { color: var(--white); }
+    .rules-list { display: flex; flex-direction: column; gap: 12px; }
+
+    .rule-wrap { position: relative; }
+
+    .rule-item {
+      background: rgba(255,253,245,0.12);
+      border-left: 6px solid var(--yellow);
+      padding: 20px 24px;
+      display: flex; align-items: center; gap: 20px;
+      transition: background 0.2s; cursor: pointer;
+      user-select: none;
+    }
+    .rule-wrap.active .rule-item { background: rgba(255,253,245,0.2); }
+
+    .rule-emoji { font-size: 1.4rem; flex-shrink: 0; }
+    .rule-text {
+      font-family: 'Dela Gothic One', sans-serif;
+      font-size: clamp(0.9rem, 2vw, 1.1rem);
+      color: var(--white); letter-spacing: 0.03em; flex: 1;
+    }
+    .rule-hint {
+      font-size: 0.65rem; letter-spacing: 0.2em;
+      color: rgba(255,253,245,0.35); flex-shrink: 0;
+      transition: opacity 0.2s;
+    }
+    .rule-wrap.active .rule-hint { opacity: 0; }
+
+    .rule-bubble {
+      position: absolute;
+      bottom: calc(100% + 12px); left: 56px;
+      background: var(--yellow); color: var(--black);
+      font-size: 0.88rem; font-weight: 700;
+      line-height: 1.6; letter-spacing: 0.04em;
+      padding: 12px 18px;
+      border-radius: 16px 16px 16px 4px;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(8px) scale(0.92);
+      transform-origin: bottom left;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      z-index: 10;
+      box-shadow: 3px 3px 0 rgba(0,0,0,0.15);
+    }
+    .rule-bubble::after {
+      content: '';
+      position: absolute; top: 100%; left: 20px;
+      border: 8px solid transparent;
+      border-top-color: var(--yellow);
+      border-bottom: none;
+    }
+    .rule-wrap.active .rule-bubble {
+      opacity: 1; transform: translateY(0) scale(1);
+    }
+
+    /* ── CTA ── */
+    .cta-section {
+      background: var(--white); padding: 100px 48px;
+      text-align: center; border-top: 8px solid var(--black);
+    }
+    .cta-title {
+      font-family: 'Dela Gothic One', sans-serif;
+      font-size: clamp(2.5rem, 7vw, 6rem);
+      color: var(--black); line-height: 1.1; margin-bottom: 16px;
+    }
+    .cta-title span { color: var(--red); }
+    .cta-sub {
+      font-size: 1rem; line-height: 2.2;
+      color: rgba(15,15,15,0.65);
+      max-width: 480px; margin: 0 auto 48px; letter-spacing: 0.07em;
+    }
+    .cta-buttons { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+    .btn-main {
+      font-family: 'Dela Gothic One', sans-serif;
+      font-size: 1rem; letter-spacing: 0.05em;
+      color: var(--white); background: var(--red);
+      text-decoration: none; padding: 20px 56px;
+      border: 4px solid var(--black); box-shadow: 6px 6px 0 var(--black);
+      display: inline-block; transition: transform 0.2s, box-shadow 0.2s; cursor: pointer;
+    }
+    .btn-main:hover { transform: translate(-3px,-3px); box-shadow: 9px 9px 0 var(--black); }
+    .btn-sub {
+      font-family: 'Dela Gothic One', sans-serif;
+      font-size: 1rem; letter-spacing: 0.05em;
+      color: var(--black); background: var(--white);
+      text-decoration: none; padding: 20px 56px;
+      border: 4px solid var(--black); box-shadow: 6px 6px 0 var(--black);
+      display: inline-block; transition: transform 0.2s, box-shadow 0.2s; cursor: pointer;
+    }
+    .btn-sub:hover { transform: translate(-3px,-3px); box-shadow: 9px 9px 0 var(--black); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--black); text-align: center;
+      padding: 48px 24px; border-top: 4px solid var(--yellow);
+    }
+    .footer-logo {
+      font-family: 'Dela Gothic One', sans-serif;
+      font-size: 1.2rem; color: var(--yellow); margin-bottom: 12px;
+    }
+    .footer-text { font-size: 0.78rem; letter-spacing: 0.2em; color: rgba(255,253,245,0.3); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 12px 20px; }
+      .manifesto, .events, .rules, .cta-section { padding: 60px 24px; }
+      .manifesto-items { grid-template-columns: 1fr; }
+      .manifesto-item:nth-child(5) { grid-column: auto; max-width: 100%; }
+      .rule-bubble { white-space: normal; max-width: 220px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- MARQUEE -->
+<div class="marquee-bar">
+  <div class="marquee-track">
+    <span>お酒は飲んでなんぼ</span>
+    <span>飲み会至上主義</span>
+    <span>お食事会って何ですか？</span>
+    <span>やるときはやる！飲むときは飲む！</span>
+    <span>マジック下手な奴に人権はねぇ！</span>
+    <span>夏は合宿！冬はスノボ！</span>
+    <span>お酒は飲んでなんぼ</span>
+    <span>飲み会至上主義</span>
+    <span>お食事会って何ですか？</span>
+    <span>やるときはやる！飲むときは飲む！</span>
+    <span>マジック下手な奴に人権はねぇ！</span>
+    <span>夏は合宿！冬はスノボ！</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">🍺 ドリソサ</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="confetti" id="confetti"></div>
+  <div class="hero-badge">乾杯大学公認サークル</div>
+  <h1 class="hero-title">
+    <span class="line1">ドリソサは<br>飲みサーです。</span>
+    <span class="line2">Drinkers' Society — 飲み会至上主義</span>
+  </h1>
+  <p class="hero-catchphrase">🍻 お酒は飲んでなんぼ！ 🍻</p>
+  <p class="hero-sub">
+    マジック？やります。<br>
+    でも飲み会の方が大事です。<br>
+    そういうサークルです。正直に言います。
+  </p>
+  <a class="hero-cta">🍺 今すぐ入会する</a>
+</section>
+
+<!-- MANIFESTO -->
+<section class="manifesto" id="manifesto">
+  <div class="manifesto-inner">
+    <p class="section-tag reveal">OUR BELIEFS</p>
+    <h2 class="section-title reveal">私たちが大切にしていること。</h2>
+    <div class="manifesto-items reveal">
+      <div class="manifesto-item">
+        <span class="item-num">01</span>
+        <span class="emoji">🍺</span>
+        <p class="item-text">お酒は飲んでなんぼ</p>
+      </div>
+      <div class="manifesto-item">
+        <span class="item-num">02</span>
+        <span class="emoji">🍽️</span>
+        <p class="item-text">お食事会って何ですか？</p>
+      </div>
+      <div class="manifesto-item">
+        <span class="item-num">03</span>
+        <span class="emoji">💪</span>
+        <p class="item-text">やるときはやる！メリハリをしっかりと</p>
+      </div>
+      <div class="manifesto-item">
+        <span class="item-num">04</span>
+        <span class="emoji">🎩</span>
+        <p class="item-text">マジック下手な奴に人権はねぇ！</p>
+      </div>
+      <div class="manifesto-item">
+        <span class="item-num">05</span>
+        <span class="emoji">🛡️</span>
+        <p class="item-text">でも、アルハラはしません！（これはガチ）</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EVENTS -->
+<section class="events" id="events">
+  <div class="events-inner">
+    <p class="section-tag reveal">ANNUAL EVENTS</p>
+    <h2 class="section-title reveal">年間<span>最強</span>イベント</h2>
+    <div class="timeline reveal" id="timeline">
+      <canvas class="tl-line" id="tlCanvas"></canvas>
+
+      <div class="tl-item tl-spring" data-color="#ff6eb4">
+        <div class="tl-dot"></div>
+        <p class="tl-season">SPRING</p>
+        <p class="tl-title">🌸 新歓コンパ</p>
+        <p class="tl-desc">１年生はコンパ代がすべてタダ！何回来ても、最終的に入らなくてもタダ！来なきゃ損じゃない？？？</p>
+      </div>
+
+      <div class="tl-item tl-summer" data-color="#e8192c">
+        <div class="tl-dot"></div>
+        <p class="tl-season">SUMMER</p>
+        <p class="tl-title">☀️ 夏合宿</p>
+        <p class="tl-desc">４泊５日で長野へ！マジックもするけど、４日目の飲み会と最終日の富士急が本番かも！？最高の夏の思い出、作りにいくしかない！</p>
+      </div>
+
+      <div class="tl-item tl-autumn" data-color="#ff6b00">
+        <div class="tl-dot"></div>
+        <p class="tl-season">AUTUMN</p>
+        <p class="tl-title">🎩 学外発表会</p>
+        <p class="tl-desc">お客さんの前でマジックを披露する年に１度の大舞台！みんなで一緒に作り上げる達成感は格別です。緊張するけど、絶対に良い思い出になるよ！</p>
+      </div>
+
+      <div class="tl-item tl-winter" data-color="#fffdf5">
+        <div class="tl-dot"></div>
+        <p class="tl-season">WINTER</p>
+        <p class="tl-title">🏂 スノボ合宿</p>
+        <p class="tl-desc">「冬合宿がうちのメインイベント」って人が続出するイベント笑　昼はスノボ、夜は飲み会！最高すぎて毎年楽しみにしてる先輩続々。</p>
+      </div>
+
+      <div class="tl-item tl-all" data-color="#ffd600">
+        <div class="tl-dot"></div>
+        <p class="tl-season">ALL YEAR</p>
+        <p class="tl-title">🍺 etc</p>
+        <p class="tl-desc">飲み会・焼き肉・花火大会・ボーリング・プライベートスノボ…気づいたら毎週誰かと遊んでる。大学生活の思い出、ここで全部作れます。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RULES -->
+<section class="rules" id="rules">
+  <div class="rules-inner">
+    <p class="section-tag reveal">THE RULES</p>
+    <h2 class="section-title reveal">ドリソサの掟</h2>
+    <div class="rules-list reveal">
+
+      <div class="rule-wrap">
+        <div class="rule-bubble">お酒の席で交流深めないといつ深めるの？</div>
+        <div class="rule-item">
+          <span class="rule-emoji">🍻</span>
+          <span class="rule-text">飲み会は絶対参加（マジック練習よりも優先）</span>
+          <span class="rule-hint">TAP</span>
+        </div>
+      </div>
+
+      <div class="rule-wrap">
+        <div class="rule-bubble">一応、は大事。でも練習終わりの飲みは必須。</div>
+        <div class="rule-item">
+          <span class="rule-emoji">🎩</span>
+          <span class="rule-text">マジックは一応練習する（一応）</span>
+          <span class="rule-hint">TAP</span>
+        </div>
+      </div>
+
+      <div class="rule-wrap">
+        <div class="rule-bubble">その言葉を発した瞬間、空気が変わります。経験者談。</div>
+        <div class="rule-item">
+          <span class="rule-emoji">🚫</span>
+          <span class="rule-text">「お食事会でよくない？」は禁句</span>
+          <span class="rule-hint">TAP</span>
+        </div>
+      </div>
+
+      <div class="rule-wrap">
+        <div class="rule-bubble">来れば友達ができる。来なければ何もない。それだけ。</div>
+        <div class="rule-item">
+          <span class="rule-emoji">💪</span>
+          <span class="rule-text">活動日は出席必須！</span>
+          <span class="rule-hint">TAP</span>
+        </div>
+      </div>
+
+      <div class="rule-wrap">
+        <div class="rule-bubble">マジックしたい人、お酒飲みたい人、青春したい人、全員集合！</div>
+        <div class="rule-item">
+          <span class="rule-emoji">👑</span>
+          <span class="rule-text">各々の楽しみ方がある</span>
+          <span class="rule-hint">TAP</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="join">
+  <div class="reveal">
+    <h2 class="cta-title">さあ、<span>飲もう。</span></h2>
+    <p class="cta-sub">
+      サークル入ろうか迷ってる？<br>とりあえず来て。<br>気づいたら一生の仲間ができてるから。
+    </p>
+    <div class="cta-buttons">
+      <a class="btn-main">🍺 今すぐ入会する</a>
+      <a class="btn-sub">🎩 公式サイトも一応</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">🍻 乾杯大学ドリソサ</div>
+  <p class="footer-text">お酒は20歳になってから。飲みすぎに注意。</p>
+</footer>
+
+<script>
+  // ── CONFETTI ──
+  const container = document.getElementById('confetti');
+  const colors = ['#ffd600','#e8192c','#ff6b00','#ff4da6','#ffffff'];
+  for (let i = 0; i < 60; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'confetti-dot';
+    const size = Math.random() * 10 + 4;
+    dot.style.cssText = `
+      width:${size}px; height:${size}px;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      left:${Math.random()*100}%;
+      top:${Math.random()*100}%;
+      animation-duration:${Math.random()*8+6}s;
+      animation-delay:${Math.random()*6}s;
+      opacity:${Math.random()*0.5+0.2};
+    `;
+    container.appendChild(dot);
+  }
+
+  // ── TIMELINE 縦線 canvas描画 ──
+  function drawTimelineLine() {
+    const tl = document.getElementById('timeline');
+    const canvas = document.getElementById('tlCanvas');
+    if (!tl || !canvas) return;
+    const items = tl.querySelectorAll('.tl-item');
+    if (!items.length) return;
+
+    canvas.style.position = 'absolute';
+    canvas.style.left = '12px';
+    canvas.style.top = '0';
+    canvas.style.width = '2px';
+    canvas.style.height = tl.offsetHeight + 'px';
+    canvas.width = 2;
+    canvas.height = tl.offsetHeight;
+
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, 2, canvas.height);
+
+    const tlRect = tl.getBoundingClientRect();
+    const dots = Array.from(items).map(item => {
+      const dot = item.querySelector('.tl-dot');
+      const color = item.dataset.color;
+      const dotRect = dot.getBoundingClientRect();
+      const y = dotRect.top - tlRect.top + dot.offsetHeight / 2;
+      return { y, color };
+    });
+
+    for (let i = 0; i < dots.length - 1; i++) {
+      const from = dots[i];
+      const to   = dots[i + 1];
+      const grad = ctx.createLinearGradient(0, from.y, 0, to.y);
+      grad.addColorStop(0, from.color);
+      grad.addColorStop(1, to.color);
+      ctx.beginPath();
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = 2;
+      ctx.moveTo(1, from.y);
+      ctx.lineTo(1, to.y);
+      ctx.stroke();
+    }
+  }
+
+  window.addEventListener('load', drawTimelineLine);
+  window.addEventListener('resize', drawTimelineLine);
+
+  // ── RULES タップのみ ──
+  document.querySelectorAll('.rule-wrap').forEach(wrap => {
+    wrap.addEventListener('click', () => {
+      const isActive = wrap.classList.contains('active');
+      document.querySelectorAll('.rule-wrap').forEach(w => w.classList.remove('active'));
+      if (!isActive) wrap.classList.add('active');
+    });
+  });
+
+  // ── SCROLL REVEAL ──
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        if (e.target.closest('#timeline')) drawTimelineLine();
+      }
+    });
+  }, { threshold: 0.1 });
+  revealEls.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
